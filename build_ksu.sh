@@ -56,30 +56,30 @@ fi
 # If build is successful, copy the /out/arch/arm64/boot/Image to Anykernel3 folder
 if [ -f "$PATHDIR/out/arch/arm64/boot/Image" ]; then
     cp $PATHDIR/out/arch/arm64/boot/Image $PATHDIR/Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 elif [ -f "/out/arch/arm64/boot/Image" ]; then
     cp /out/arch/arm64/boot/Image $PATHDIR/Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 elif [ -f "/out/arch/arm64/boot/Image" ]; then
     cp /out/arch/arm64/boot/Image Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 elif [ -f "/out/arch/arm64/boot/Image" ]; then
     cp /out/arch/arm64/boot/Image /Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 elif [ -f "out/arch/arm64/boot/Image" ]; then
     cp out/arch/arm64/boot/Image Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 elif [ -f "./out/arch/arm64/boot/Image" ]; then
     cp ./out/arch/arm64/boot/Image ./Anykernel3/
-    echo "Kernel built successfully!" | lolcat
+    echo "Kernel built successfully!"
 
 else
-    echo "Kernel build failed!" | lolcat
+    echo "Kernel build failed!"
     exit 1
 fi
 
@@ -130,12 +130,12 @@ else
 fi
 
 if [ ! -f "$ZIP_NAME" ]; then
-    figlet echo "❌ .zip file not found!" | lolcat
-    figlet echo "❌ 'ZIP_NAME'.zip file not found!" | lolcat
+     echo "❌ .zip file not found!"
+     echo "❌ 'ZIP_NAME'.zip file not found!"
 elif [ ! -f "$KERNEL_VERSION-DrRoot-SukiSU-SUSFS.zip" ]; then
-    figlet echo "❌ $KERNEL_VERSION-DrRoot-SukiSU-SUSFS.zip file not found!" | lolcat
+     echo "❌ $KERNEL_VERSION-DrRoot-SukiSU-SUSFS.zip file not found!"
 else
-    figlet echo "✅ $ZIP_NAME file found!" | lolcat
+     echo "✅ $ZIP_NAME file found!"
 fi
 
 
@@ -143,10 +143,10 @@ fi
 # After successful build (at the very end of your script)
 if [ -f "$ZIP_NAME" ]; then
   # Success case
-  figlet "BUILD SUCCESS!" | lolcat
+   echo "BUILD SUCCESS!"
   notify-send -i ~/.config/swaync/icons/success.png -u critical -t 0 \
     "🚀 Kernel Build Complete!" \
-    "File: <b>$ZIP_NAME</b>\nSize: $(du -h $ZIP_NAME | cut -f1)\n\n$(date +'%H:%M %d/%m/%Y')" \
+    "File: <b>$ZIP_NAME</b>\nSize: $(du -h $ZIP_NAMEcut -f1)\n\n$(date +'%H:%M %d/%m/%Y')" \
     -h string:hlcolor:#00AA00
   
   # Play success sound (non-blocking)
@@ -156,7 +156,7 @@ if [ -f "$ZIP_NAME" ]; then
   echo "[SUCCESS] $(date) - $ZIP_NAME" >> ~/.build_notifications.log
 else
   # Failure case
-  figlet "BUILD FAILED!" | lolcat
+   echo "BUILD FAILED!"
   notify-send -i ~/.config/swaync/icons/error.png -u critical -t 0 \
     "💥 Kernel Build Failed!" \
     "Check terminal logs\n\n$(date +'%H:%M %d/%m/%Y')" \
