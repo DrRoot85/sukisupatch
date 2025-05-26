@@ -4,7 +4,7 @@
 
 KERNEL_DEFCONFIG=gki_defconfig
 CLANG_VERSION=clang-r547379
-CLANG_DIR="$HOME/Projects/tools/google-clang"
+CLANG_DIR="$HOME/tools/google-clang"
 CLANG_BINARY="$CLANG_DIR/bin/clang"
 export PATH="$CLANG_DIR/bin:$PATH"
 export KBUILD_COMPILER_STRING="$($CLANG_BINARY --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
