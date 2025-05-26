@@ -32,24 +32,18 @@ fi
     # export CC="ccache gcc"
     # export CXX="ccache g++"
     # Add to your build flags:
-    export CFLAGS="-flto=thin"
-    export LDFLAGS="-fuse-ld=lld"
+    # export CFLAGS="-flto=thin"
+    # export LDFLAGS="-fuse-ld=lld"
 
     time make clean
     # cmake -G Ninja 
     time make -j$(nproc --all)  CC="clang" \
-                                AR="llvm-ar" \
-                                NM="llvm-nm" \
-                                RANLIB="llvm-ranlib" \
                                 LD=ld.lld \
                                 LLVM=1 \
                                 LLVM_IAS=1 \
                                 $KERNEL_DEFCONFIG
 
     time make -j$(nproc --all)  CC="clang" \
-                                AR="llvm-ar" \
-                                NM="llvm-nm" \
-                                RANLIB="llvm-ranlib" \
                                 LD=ld.lld \
                                 LLVM=1 \
                                 LLVM_IAS=1
