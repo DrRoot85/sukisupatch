@@ -88,7 +88,7 @@ SUSFS_CHECKOUT_HASH=""   # Specific commit SHA after cloning (empty = latest)
 # ---------------------------------------------------------------------------- #
 
 ## KernelSU-Next Options
-ENABLE_KSU_NEXT=0        # Use KernelSU-Next? (1 = yes, 0 = no)
+ENABLE_KSU_NEXT=1        # Use KernelSU-Next? (1 = yes, 0 = no)
 KSU_NEXT_STABLE=1        # Select stable branch? (1 = stable, 0 = dev)
 KSU_NEXT_MANUAL_HOOKS=1  # Hooks style (1 = manual, 0 = kprobes)
 KSUN_CHECKOUT_HASH=""    # Specific KernelSU-Next commit SHA
@@ -102,7 +102,7 @@ PATCH_KPM=1              # Patches the kernel binary after its done compiling.
 KPM_VERSION="0.12.0"     # Release tag of KPM binary
 
 ## KernelSU Options     | Note KernelSU-Next removed SUSFS support from their branch
-ENABLE_KSU=1             # Use original KernelSU? (1 = yes, 0 = no)
+ENABLE_KSU=0             # Use original KernelSU? (1 = yes, 0 = no)
 KSU_CHECKOUT_HASH=""     # Specific KernelSU commit SHA
 
 ## Apatch Options
@@ -322,7 +322,7 @@ log_section() {
 
 start() {
     FINAL_KERNEL_ZIP=""
-    # DEFAULT_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M).zip"
+    
     # while true; do
         # read -t 3 -rp "Enter final kernel zip name (format: <kernel_name>.zip): " FINAL_KERNEL_ZIP
 
@@ -333,7 +333,7 @@ start() {
         # 1) Reject truly empty input
         # if [[ -z "$FINAL_KERNEL_ZIP" ]]; then
             # echo -e "${yellow}Input cannot be empty.${nocol}"
-            FINAL_KERNEL_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M)"
+            FINAL_KERNEL_ZIP="DrRoot-KSUNext-$(date +%Y%m%d-%H%M)"
         # fi
 
         # 2) Append .zip only once
@@ -451,7 +451,7 @@ zip_kernel() {
     TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
     # Append timestamp to the final kernel zip file name
-     FINAL_KERNEL_ZIP_WITH_TIMESTAMP="${FINAL_KERNEL_ZIP%.*}.zip"
+    FINAL_KERNEL_ZIP_WITH_TIMESTAMP="${FINAL_KERNEL_ZIP%.*}.zip"
     export FINAL_KERNEL_ZIP_WITH_TIMESTAMP
 
     # Apply KPM and apatch patches on generated kernel binary before zipping if selected.

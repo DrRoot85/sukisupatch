@@ -94,15 +94,15 @@ KSU_NEXT_MANUAL_HOOKS=1  # Hooks style (1 = manual, 0 = kprobes)
 KSUN_CHECKOUT_HASH=""    # Specific KernelSU-Next commit SHA
 
 ## SUKISU-Ultra Options
-ENABLE_SUKISU=0          # Use SUKISU-Ultra? (1 = yes, 0 = no)
-SUKI_MANUAL_HOOKS=0      # Manual Hooks for SUKISU (SUSFS version only) (1 = manual, 0 = default)
-SUKI_TRACEPOINTS_HOOK=1  # Use tracepoint hook for Sukisu-Ultra (for SUSFS and Normal ver) (1 = enable, 0 = disabled)
+ENABLE_SUKISU=1          # Use SUKISU-Ultra? (1 = yes, 0 = no)
+SUKI_MANUAL_HOOKS=1      # Manual Hooks for SUKISU (SUSFS version only) (1 = manual, 0 = default)
+SUKI_TRACEPOINTS_HOOK=0  # Use tracepoint hook for Sukisu-Ultra (for SUSFS and Normal ver) (1 = enable, 0 = disabled)
 SUKI_CHECKOUT_HASH=""    # Specific SUKISU commit SHA
 PATCH_KPM=1              # Patches the kernel binary after its done compiling.
 KPM_VERSION="0.12.0"     # Release tag of KPM binary
 
 ## KernelSU Options     | Note KernelSU-Next removed SUSFS support from their branch
-ENABLE_KSU=1             # Use original KernelSU? (1 = yes, 0 = no)
+ENABLE_KSU=0             # Use original KernelSU? (1 = yes, 0 = no)
 KSU_CHECKOUT_HASH=""     # Specific KernelSU commit SHA
 
 ## Apatch Options
@@ -322,9 +322,8 @@ log_section() {
 
 start() {
     FINAL_KERNEL_ZIP=""
-    # DEFAULT_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M).zip"
     # while true; do
-        # read -t 3 -rp "Enter final kernel zip name (format: <kernel_name>.zip): " FINAL_KERNEL_ZIP
+        # read -rp "Enter final kernel zip name (format: <kernel_name>.zip): " FINAL_KERNEL_ZIP
 
         # Strip all whitespace and stray CR
         # FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP//[[:space:]]/}"
@@ -333,7 +332,8 @@ start() {
         # 1) Reject truly empty input
         # if [[ -z "$FINAL_KERNEL_ZIP" ]]; then
             # echo -e "${yellow}Input cannot be empty.${nocol}"
-            FINAL_KERNEL_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M)"
+            FINAL_KERNEL_ZIP="DrRoot-Sukisu-$(date +%Y%m%d-%H%M)"
+            # continue
         # fi
 
         # 2) Append .zip only once

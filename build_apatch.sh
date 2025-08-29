@@ -102,12 +102,12 @@ PATCH_KPM=1              # Patches the kernel binary after its done compiling.
 KPM_VERSION="0.12.0"     # Release tag of KPM binary
 
 ## KernelSU Options     | Note KernelSU-Next removed SUSFS support from their branch
-ENABLE_KSU=1             # Use original KernelSU? (1 = yes, 0 = no)
+ENABLE_KSU=0             # Use original KernelSU? (1 = yes, 0 = no)
 KSU_CHECKOUT_HASH=""     # Specific KernelSU commit SHA
 
 ## Apatch Options
 # Fetch release tags from here: https://github.com/bmax121/KernelPatch/releases
-ENABLE_APATCH=0          # Apply apatch patches? superkey will be asked when patching
+ENABLE_APATCH=1          # Apply apatch patches? superkey will be asked when patching
 APATCH_VER="0.12.0"  # Release tag of Apatch binary
 KPTOOLS_VER="0.11.3"     # Release tag of kptools binary
 
@@ -322,27 +322,27 @@ log_section() {
 
 start() {
     FINAL_KERNEL_ZIP=""
-    # DEFAULT_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M).zip"
-    # while true; do
-        # read -t 3 -rp "Enter final kernel zip name (format: <kernel_name>.zip): " FINAL_KERNEL_ZIP
+    DEFAULT_ZIP="DrRoot-Apatch-$(date +%Y%m%d-%H%M).zip"
+    while true; do
+        read -t 3 -rp "Enter final kernel zip name (format: <kernel_name>.zip): " FINAL_KERNEL_ZIP
 
         # Strip all whitespace and stray CR
-        # FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP//[[:space:]]/}"
-        # FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP//$'\r'/}"
+        FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP//[[:space:]]/}"
+        FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP//$'\r'/}"
 
         # 1) Reject truly empty input
-        # if [[ -z "$FINAL_KERNEL_ZIP" ]]; then
-            # echo -e "${yellow}Input cannot be empty.${nocol}"
-            FINAL_KERNEL_ZIP="DrRoot-KSU-$(date +%Y%m%d-%H%M)"
-        # fi
+        if [[ -z "$FINAL_KERNEL_ZIP" ]]; then
+            echo -e "${yellow}Input cannot be empty.${nocol}"
+            FINAL_KERNEL_ZIP="$DEFAULT_ZIP"
+        fi
 
         # 2) Append .zip only once
         if [[ "$FINAL_KERNEL_ZIP" != *.zip ]]; then
             FINAL_KERNEL_ZIP="${FINAL_KERNEL_ZIP}.zip"
         fi
 
-        # break
-    # done
+        break
+    done
 
     echo -e "Final Kernel name is set to $FINAL_KERNEL_ZIP"
 }
@@ -451,7 +451,7 @@ zip_kernel() {
     TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 
     # Append timestamp to the final kernel zip file name
-     FINAL_KERNEL_ZIP_WITH_TIMESTAMP="${FINAL_KERNEL_ZIP%.*}.zip"
+    FINAL_KERNEL_ZIP_WITH_TIMESTAMP="${FINAL_KERNEL_ZIP%.*}.zip"
     export FINAL_KERNEL_ZIP_WITH_TIMESTAMP
 
     # Apply KPM and apatch patches on generated kernel binary before zipping if selected.
@@ -1049,6 +1049,7 @@ Final_CLEANUP() {
           | bash -s -- --cleanup \
           || { echo -e "${red}KernelSU-Next cleanup failed!${nocol}"; exit 1; }
     fi
+
 
     log_section "To reset repository to pristine state and clean SUSFS patches, run the following command:"
     echo -e "${blue}Warning! Running this command will also reset any uncommited changes that haven't been pushed yet!${nocol}"
